@@ -1,0 +1,103 @@
+/*
+Custom Css
+*/
+
+/*
+Index
+*/
+.navbar-brand.text-success.logo.h1.align-self-center{ color: #2B1773 !important; }
+
+.h1.text-success{ color: #446DA6 !important; }
+
+.btn.btn-success{ color: #dae8fc !important; 
+background-color: #446DA6 !important;
+border-color: #446DA6 !important;}
+
+div.w-100.bg-black.py-3 {
+    background-color: #00030D !important;
+}
+
+.h2.text-success.border-bottom.pb-3.border-light.logo{
+    color: #99BBFF !important;
+}
+
+li.mt-0{
+    background-color: #2B1773;
+}
+
+#template-mo-zay-hero-carousel .carousel-indicators li {
+    background-color: #2B1773;
+}
+
+h2.text-light.border-bottom.pb-3.border-light{
+    color: #99BBFF !important;
+}
+
+main h3.h2{
+    color: #000618 !important;  
+}
+/*
+Conocenos
+*/
+.text-center.fs-3 {
+    color: #2B1773 !important;
+}
+
+.card-title{
+    color: #533f9c !important;
+}
+
+/*
+Posts
+*/
+.btn-outline-success{
+    color: #2B1773 !important;
+    --bs-btn-color: #fff !important;
+    --bs-btn-hover-color: #fff !important;
+    --bs-btn-hover-bg: #533f9c !important;
+    --bs-btn-active-bg: #fff !important;
+    --bs-btn-active-color: #fff !important;
+    --bs-btn-active-border-color: #fff !important;
+    --bs-btn-disabled-color: #2B1773 !important;
+}
+h1.text-center.text-success{
+    color: #99BBFF !important;
+}
+.btn-outline-success:hover{
+    color: #fff !important;
+    background-color: #533f9c;
+    border-color: #533f9c;
+}
+button.btn.btn-outline-success.dropdown-toggle{
+    
+    border-color: #99BBFF !important;
+    
+}
+.btn-check:active+.btn-outline-success, .btn-check:checked+.btn-outline-success, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show, .btn-outline-success:active{
+    color: #fff;
+    background-color: #533f9c;
+    border-color: #533f9c;
+}
+
+
+
+ul.list-group .text-success{
+    color: #533f9c !important;
+}
+
+.border.border-success{
+    border-color: #533f9c !important;
+}
+
+/*
+post individual
+*/
+div.p-3.mb-2.bg-success.text-white{
+    background-color:#000618 !important;
+}
+svg.bi.bi-arrow-left-square.text-success ,svg.bi.bi-pencil.text-success ,svg.bi.bi-trash3.text-success{
+    color: #99BBFF !important;
+}
+h2.h5.text-success{
+    color: #2B1773 !important; 
+}

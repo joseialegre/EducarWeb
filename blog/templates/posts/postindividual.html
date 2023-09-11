@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<head>
+    <title>{% block title %}{{ posts.titulo }}{% endblock title %}</title>
+
+</head>
+
+{% block content %}
+
+<body>
+    <div class="p-3 mb-2 bg-success text-white">
+        <div class="p-3 mb-2 bg-light text-dark text-align-left align-self-center">
+
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'apps.posts:posts' %}" class="text-start btn"
+                    src="{% static 'assets/img/btn-regresar.svg' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor"
+                        class="bi bi-arrow-left-square text-success" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                    </svg>
+                </a>
+
+                <div class="">
+                    {% if user.is_authenticated and user == posts.usuario%}
+                    <a href="{% url 'apps.posts:editar' posts.id %}" class="text-end btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor"
+                            class="bi bi-pencil text-warning" viewBox="0 0 16 16">
+                            <path
+                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="btn" onclick="eliminarPost('{{ posts.id }}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor"
+                            class="bi bi-trash3 text-danger" viewBox="0 0 16 16">
+                            <path
+                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="container mt-5">
+
+                <h1 class="h1 text-success text-center">{{ posts.titulo }}</h1>
+                <div class="text-center">
+                    <img class="rounded-5" style="width: 30rem;" src="{{ posts.imagen.url }}" alt="">
+                </div>
+                <h2 class="h5 text-success">{{ posts.subtitulo}}</h2>
+                <p>{{ posts.texto }}</p>
+                <div class="d-flex justify-content-between">
+                    <b class="text-start">Autor: {{posts.usuario.first_name}}, {{posts.usuario.last_name}}.</b>
+                    <p class="text-end">Fecha de publicación: {{ posts.fecha|date:"d/m/Y H:i:s" }}</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5 ">
+        <div class="countainer-fluid" style="margin-bottom: 20px;">
+            <h4 class="text-center">Comentarios</h4>
+        </div>
+
+        {% for comentario in comentarios %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <b class="text-start"> {{ comentario.usuario }}</b>
+
+
+                <p></p>
+                <p class="card-text">{{ comentario.texto }}</p>
+                <p></p>
+
+
+                <div class="text-end">
+
+                    <l class="">{{ comentario.fecha }} </l>
+                    {% if user == comentario.usuario %}
+                    <a href="{% url 'apps.posts:editar_comentario' posts.id comentario.id %}" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-pencil text-warning" viewBox="0 0 16 16">
+                            <path
+                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                        </svg>
+
+                    </a>
+                    {% endif %}
+                    {% if user == comentario.usuario or user == posts.usuario %}
+                    <a href="#" class="btn " onclick="eliminarComentario('{{ posts.id }}', '{{ comentario.id }}')"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-trash3 text-danger " viewBox="0 0 16 16">
+                            <path
+                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                        </svg></a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay comentarios - ¡Puedes ser el primero en comentar!</p>
+        {% endfor %}
+
+        <a id="comentario"></a>
+        <div class="container mt-4">
+            <div class="countainer-fluid" style="margin-bottom: 100px;">
+                <form method="POST" style="margin-bottom: 100px; margin-top: 100px;">
+                    {% csrf_token %}
+                    {% if user.is_authenticated %}
+                    <h2>Deja tu comentario</h2>
+                    <form method="POST">
+                        {% crispy form %}
+                    </form>
+                    {% else %}
+                    <h2>Debes iniciar sesión o registrarte para comentar</h2>
+                    <a class="btn btn-sucess btn-lg"
+                        href="{% url 'apps.usuario:login' %}?next={{ request.path }}#comentario">Iniciar sesión</a>
+                    <input type="hidden" name="next" value="{{request.path}}">
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SweetAlert2 JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script>
+        function eliminarPost(postId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                iconHtml: '<i class="fa fa-exclamation-triangle fa-4x" style="color: #ff5722;"></i>', // Icono personalizado más grande y color más fuerte
+                allowOutsideClick: false, // Evita que el usuario haga clic fuera de la alerta para cerrarla
+                allowEscapeKey: false, // Evita que el usuario presione la tecla "Esc" para cerrarla
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma la eliminación, enviar la solicitud de eliminación al servidor
+                    Swal.fire(
+                        {
+                            title: 'Post eliminado',
+                            text: 'El post ha sido eliminado exitosamente.',
+                            icon: 'success',
+                            iconHtml: '<i class="fa fa-check-circle fa-4x" style="color: #4caf50;"></i>', // Icono personalizado más grande y color verde
+                            allowOutsideClick: false, // Evita que el usuario haga clic fuera de la alerta para cerrarla
+                            allowEscapeKey: false, // Evita que el usuario presione la tecla "Esc" para cerrarla
+                        }
+                    ).then(() => {
+                        $.ajax({
+                            type: 'POST',
+                            url: "{% url 'apps.posts:eliminar' posts.id %}",
+                            data: {
+                                csrfmiddlewaretoken: "{{ csrf_token }}"
+                            },
+                            success: function (response) {
+                                // Redirigir al usuario a la lista de posts o cualquier otra página deseada después de la eliminación
+                                window.location.href = "{% url 'apps.posts:posts' %}";
+                            },
+                            error: function (xhr, status, error) {
+                                // Mostrar una alerta o mensaje al usuario si hay algún error
+                                alert('Ha ocurrido un error al intentar eliminar el post.');
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        function eliminarComentario(postId, comentarioId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                iconHtml: '<i class="fa fa-exclamation-triangle fa-4x" style="color: #ff5722;"></i>',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        {
+                            title: 'Comentario eliminado',
+                            text: 'El comentario ha sido eliminado exitosamente.',
+                            icon: 'success',
+                            iconHtml: '<i class="fa fa-check-circle fa-4x" style="color: #4caf50;"></i>',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                        }
+                    ).then(() => {
+                        $.ajax({
+                            type: 'POST',
+                            url: "/posts/" + postId + "/eliminar_comentario/" + comentarioId + "/",
+                            data: {
+                                csrfmiddlewaretoken: "{{ csrf_token }}"
+                            },
+                            success: function (response) {
+                                location.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                alert('Ha ocurrido un error al intentar eliminar el comentario.');
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+{% endblock %}

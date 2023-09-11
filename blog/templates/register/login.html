@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<head>
+    <title> {% block title %} Login {% endblock title %} </title>
+
+</head>
+
+{% block content %}
+
+<div class="text-center row" style="width: 25%; margin: auto">
+    <form id="login-form" method="post" action="{% url 'apps.usuario:login' %}{% if next_url %}?next={{ next_url }}{% endif %}">
+        {% csrf_token %}
+        <div class="text-center">
+            {% crispy form %}
+            <button class="btn btn-primary" type="submit" id="login-btn">Iniciar sesión</button>
+            <a href="{% url 'apps.usuario:register' %}">¿No tienes cuenta? Haz clic aquí</a>
+            <div>
+                <a href="{% url 'apps.usuario:password_reset' %}" class="fs-6">¿Olvidaste tu Contraseña? Haz clic aquí</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' and message|escapejs == 'Logout exitoso' %}
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cierre de sesión exitoso',
+                    
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+<script>
+    document.getElementById('login-form').addEventListener('submit', function (event) {
+        event.preventDefault(); 
+        const form = event.target;
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Inicio de sesión exitoso',
+                }).then(() => {
+                    
+                    window.location.href = data.next_url;
+                });
+            } else {
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de inicio de sesión',
+                    text: data.message,
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error durante el inicio de sesión.',
+            });
+        });
+    });
+</script>
+
+{% endblock %}
