@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-mk8i6+@ffmr*4(9vme3a=#8)q&@bm^2-2tz&3n1_7x$(9_e0el
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+WSGI_APPLICATION = 'blog.wsgi.application'
+
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL ='usuario.Usuario'
