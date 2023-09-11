@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1>¿Estás seguro de que deseas eliminar este post?</h1>
+    <p>{{ post.titulo }}</p>
+    <form method="post" id="eliminar-post-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'apps.posts:postindividual' post.id %}" class="btn btn-primary">Cancelar</a>
+    </form>
+
+    <!-- SweetAlert2 JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script>
+        document.getElementById('eliminar-post-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma la eliminación, muestra la alerta "Post eliminado" durante 1.5 segundos
+                    Swal.fire(
+                        'Post eliminado',
+                        'El post ha sido eliminado exitosamente.',
+                        'success'
+                    );
+                    // Agrega un retraso de 1.5 segundos antes de enviar el formulario
+                    setTimeout(() => {
+                        document.getElementById('eliminar-post-form').submit();
+                    }, 1500);
+                }
+            });
+        });
+    </script>
+{% endblock %}

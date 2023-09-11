@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Start Banner Hero -->
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        {% if posts|length  == 3 %}
+        <ol class="carousel-indicators">
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+            
+        </ol>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        {% endif %} 
+        {% if posts|length  == 2 %}
+        <ol class="carousel-indicators mt-3">
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active mt-0"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1" class="mt-0"></li>
+        </ol>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3 " href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        {% endif %} 
+        <div class="carousel-inner">
+            {% for p in posts %}
+            {% if forloop.first %}                    
+            <div class="carousel-item active">
+            {% else %}
+            <div class="carousel-item ">
+            {% endif %}
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last ">
+                            <img class="img-fluid" src="{{ p.imagen.url }}" alt="" style=" object-fit: cover;">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <h1 class="h1 text-primary">{{ p.titulo }}</h1>
+                                <h3 class="h2">{{ p.subtitulo }}</h3>
+                                <p>
+                                    {{ p.texto|truncatechars:600 }}
+                                </p>
+                                <a href="{% url 'apps.posts:postindividual' p.id%}" class="btn btn-primary">Ver Post</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="container text-center">
+            <span class="text-secondary display-4">Aun No existe ningun Posteo en la Pagina</span>  
+        </div>
+            {% endfor %}        
+        </div>
+    </div>
+    <!-- End Banner Hero -->
+    <div class="container text-center border rounded">
+        <h4 class="text-primary p-3">Explorar categorías</h4>
+        <div class="row d-flex justify-content-evenly">
+        {% for i in categorias %}
+        <div class="col-lg-4 col-md-4 col-sm-4 my-1 ">
+            <a href="{% url 'apps.posts:categoria' i.id %}" class="p-3 w-100  btn btn-primary fw-semibold">{{ i.nombre }}</a>
+        </div>
+        {% empty %}
+        <span class="text-warning py-3 fw-semibold fs-2"> No hay categorias registradas por el momento.</span>
+        {% endfor %}
+    </div>
+    </div>
+    <p><br><br></p>
+{% endblock %}
