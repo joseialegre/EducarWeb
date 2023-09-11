@@ -27,7 +27,7 @@ DEBUG = True
 
 WSGI_APPLICATION = 'blog.wsgi.application'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['educarweb.onrender.com']
 
 AUTH_USER_MODEL ='usuario.Usuario'
 
